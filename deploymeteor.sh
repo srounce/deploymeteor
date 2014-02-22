@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOME_DIR=/home/ec2-user
+HOME_DIR=/home/ubuntu
 NODEPROXY_DIR=$HOME_DIR/nodeproxy
 PWD=`pwd`
 SCRIPTPATH="$HOME/.deploymeteor"
@@ -48,7 +48,7 @@ LAST_APP_HOST=$APP_HOST
 LAST_EC2_PEM_FILE=$EC2_PEM_FILE
 ENDCAT
 
-SSH_HOST="ec2-user@$APP_HOST"
+SSH_HOST="ubuntu@$APP_HOST"
 SSH_OPT="-i $EC2_PEM_FILE"
 
 case "$1" in
@@ -93,8 +93,8 @@ prepserver)
 EOL
     # Copy nodeproxy.js from script directory to server
     # We don't need to start it until an environment has been deployed
-    echo "Copying nodeproxy.js to the server..."
-    scp $SSH_OPT $SCRIPTPATH/nodeproxy.js $SSH_HOST:$NODEPROXY_DIR &> /dev/null
+    #echo "Copying nodeproxy.js to the server..."
+    #scp $SSH_OPT $SCRIPTPATH/nodeproxy.js $SSH_HOST:$NODEPROXY_DIR &> /dev/null
     echo "Done!"
     exit 1
     ;;
@@ -180,8 +180,8 @@ EOL2
 restartproxy)
     echo "Restarting nodeproxy..."
     ssh -t $SSH_OPT $SSH_HOST <<EOL3
-    sudo forever stop $NODEPROXY_DIR/nodeproxy.js &> /dev/null
-    sudo forever start -l $NODEPROXY_DIR/logs/forever.log -o $NODEPROXY_DIR/logs/out.log -e $NODEPROXY_DIR/logs/err.log -a -s $NODEPROXY_DIR/nodeproxy.js
+    #sudo forever stop $NODEPROXY_DIR/nodeproxy.js &> /dev/null
+    #sudo forever start -l $NODEPROXY_DIR/logs/forever.log -o $NODEPROXY_DIR/logs/out.log -e $NODEPROXY_DIR/logs/err.log -a -s $NODEPROXY_DIR/nodeproxy.js
 EOL3
     echo "Done!"
     exit 1
@@ -200,8 +200,8 @@ restart)
             \$file
         done
         echo "Restarting nodeproxy..."
-        sudo forever stop $NODEPROXY_DIR/nodeproxy.js &> /dev/null
-        sudo forever start -l $NODEPROXY_DIR/logs/forever.log -o $NODEPROXY_DIR/logs/out.log -e $NODEPROXY_DIR/logs/err.log -a -s $NODEPROXY_DIR/nodeproxy.js &> /dev/null
+        #sudo forever stop $NODEPROXY_DIR/nodeproxy.js &> /dev/null
+        #sudo forever start -l $NODEPROXY_DIR/logs/forever.log -o $NODEPROXY_DIR/logs/out.log -e $NODEPROXY_DIR/logs/err.log -a -s $NODEPROXY_DIR/nodeproxy.js &> /dev/null
         echo "Done"
 EOL8
     else
@@ -370,8 +370,8 @@ EOLJSONDOC
 # Start/restart nodeproxy.js using forever so that hostname/IP updates are seen
 echo "Starting or restarting nodeproxy..."
 mkdir -p logs
-sudo forever stop $NODEPROXY_DIR/nodeproxy.js &> /dev/null
-sudo forever start -l $NODEPROXY_DIR/logs/forever.log -o $NODEPROXY_DIR/logs/out.log -e $NODEPROXY_DIR/logs/err.log -a -s $NODEPROXY_DIR/nodeproxy.js
+#sudo forever stop $NODEPROXY_DIR/nodeproxy.js &> /dev/null
+#sudo forever start -l $NODEPROXY_DIR/logs/forever.log -o $NODEPROXY_DIR/logs/out.log -e $NODEPROXY_DIR/logs/err.log -a -s $NODEPROXY_DIR/nodeproxy.js
 EOLENVSETUP
 echo "Creating the post-receive script and sending it to the EC2 server..."
 cat > tmp-post-receive <<ENDCAT
